@@ -1,0 +1,40 @@
+{
+	"name": "steal",
+	"description": "A JavaScript package manager.",
+	"version": "0.1.0",
+	"homepage": "http://javascriptmvc.com",
+	"author": {
+		"name": "Bitovi",
+		"email": "contact@bitovi.com",
+		"url": "http://bitovi.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/bitovi/node-steal.git"
+	},
+	"bugs": {
+		"url": "https://github.com/bitovi/node-steal/issues"
+	},
+	"licenses": [
+		{
+			"type": "MIT",
+			"url": "http://javascriptmvc.com/blob/master/LICENSE-MIT"
+		}
+	],
+	"main": "lib/steal",
+	"engines": {
+		"node": ">= 0.8.0"
+	},
+	"scripts": {
+		"test": "mocha test"
+	},
+	"dependencies": {
+		"underscore": "~ 1.4.0",
+		"esprima": "~ 1.0.0"
+	},
+	"devDependencies": {
+		"grunt-contrib-jshint": "~0.1.1",
+		"grunt-contrib-watch": "~0.2.0"
+	},
+	"keywords": []
+}
