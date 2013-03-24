@@ -6,7 +6,7 @@ describe('Pluginify', function(){
 		var exporter = {};
 
 		// Run pluginify on hello/hello.js in the current folder.
-		// Export it to plguinifyMessage
+		// Export it to pluginifyMessage
 		// Set the wrapper so that it will be added to the exporter object
 		pluginify('hello', {
 			root: __dirname,

@@ -30,7 +30,8 @@
 	},
 	"dependencies": {
 		"underscore": "~ 1.4.0",
-		"esprima": "~ 1.0.0"
+		"esprima": "~ 1.0.0",
+		"winston": "~ 0.6.0"
 	},
 	"devDependencies": {
 		"grunt-contrib-jshint": "~0.1.1",
