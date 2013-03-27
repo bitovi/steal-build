@@ -11,7 +11,8 @@ describe('Pluginify', function(){
 		pluginify('hello', {
 			root: __dirname,
 			exports: {
-				'hello/hello.js': 'pluginifyMessage'
+				'hello': 'pluginifyMessage',
+				'hello/world.js': 'world'
 			},
 			wrapper: '!function(window, undefined) {\n<%= content %>\n\n' +
 				'<%= exports.join("\\n") %>\n' +
@@ -21,6 +22,7 @@ describe('Pluginify', function(){
 			eval(content);
 			// And make sure that the exported object got updated
 			assert.equal(exporter.pluginifyMessage, 'Hello World WORLD!');
+			assert.equal(exporter.world, 'World');
 			done();
 		});
 	});
