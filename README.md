@@ -1,23 +1,14 @@
-# steal
+# Steal
 
-A JavaScript package manager.
+NodeJS package for StealJS, a JavaScript package manager.
 
-## Getting Started
-Install the module with: `npm install steal`
+## Using Steal
 
-```javascript
-var steal = require('steal');
-steal.awesome(); // "awesome"
-```
+## Building
 
-## Documentation
-_(Coming soon)_
+### Pluginify
 
-## Examples
-_(Coming soon)_
-
-## Contributing
-In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
+### Download builder builds
 
 ## Release History
 _(Nothing yet)_
