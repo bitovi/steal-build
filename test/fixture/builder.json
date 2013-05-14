@@ -1,0 +1,43 @@
+{
+	"filename": "builder.custom.js",
+	"banner": "/*! Banner: <%= info.name %> */\n",
+	"modules": {
+		"fixture/hello": {
+			"name": "Module.Hello",
+			"description": "The hello module",
+			"type": "core",
+			"isDefault": true
+		},
+		"fixture/hello/mapped": {
+			"name": "Module.Mapped",
+			"description": "A module that returns Mars",
+			"type": "plugin"
+		}
+	},
+	"types": {
+		"core": "Core module(s)",
+		"plugin": "Plugin module(s)"
+	},
+	"pluginify": {
+		"exports": {
+			"fixture/hello/hello.js": "pluginified"
+		},
+		"wrapper": "(function(window, undefined) {\n<%= content %>\n\n<%= exports.join('\\n') %>\n})(exporter);"
+	},
+	"configurations": {
+		"dummy": {
+			"description": "Default configuration",
+			"isDefault": true
+		},
+		"mapped": {
+			"description": "Configuration with mappings",
+			"steal": {
+				"map": {
+					"*": {
+						"fixture/hello/world.js": "fixture/hello/mapped.js"
+					}
+				}
+			}
+		}
+	}
+}
