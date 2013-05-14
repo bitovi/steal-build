@@ -18,18 +18,31 @@ describe('Steal download builder tests', function() {
 			assert.ok(!error);
 			assert.equal(info.configurations.dummy.steals.length, 2);
 			assert.equal(info.configurations.mapped.steals.length, 2);
-			// console.log(info.configurations.dummy.steals[0].options.id);
+			assert.ok(info.configurations.dummy.steals[0].options.text);
 			done();
 		});
 	});
 
-	it('builds', function(done) {
+	it('builds with default configuration', function(done) {
+		builder.loadInfo(__dirname + '/fixture', function(error, info) {
+			builder({}, info, function(error, content) {
+				var exporter = {};
+				eval(content);
+				assert.equal(exporter.pluginified, 'Hello World WORLD!');
+				done();
+			})
+		});
+	});
+
+	it('builds using configuration with mappings', function(done) {
 		builder.loadInfo(__dirname + '/fixture', function(error, info) {
 			builder({
 				ids: ['fixture/hello'],
-				url: 'http://example.com'
+				configuration: 'mapped'
 			}, info, function(error, content) {
-				console.log(content);
+				var exporter = {};
+				eval(content);
+				assert.equal(exporter.pluginified, 'Hello Mars MARS!');
 				done();
 			})
 		});

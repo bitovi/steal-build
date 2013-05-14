@@ -6,7 +6,7 @@ describe('Steal build utilities test', function() {
 	it('.banner', function() {
 		var builder = require(__dirname + '/fixture/builder.json');
 		var banner = utilities.banner(builder.banner, { info: { name: 'Bannertest' } });
-		assert.equal(banner, '/*! Banner: Bannertest */');
+		assert.equal(banner, '/*! Banner: Bannertest */\n');
 	});
 
 	it('.prettify', function() {

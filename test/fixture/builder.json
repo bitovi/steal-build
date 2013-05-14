@@ -1,6 +1,6 @@
 {
 	"filename": "builder.custom.js",
-	"banner": "/*! Banner: <%= info.name %> */",
+	"banner": "/*! Banner: <%= info.name %> */\n",
 	"modules": {
 		"fixture/hello": {
 			"name": "Module.Hello",
@@ -18,6 +18,12 @@
 		"core": "Core module(s)",
 		"plugin": "Plugin module(s)"
 	},
+	"pluginify": {
+		"exports": {
+			"fixture/hello/hello.js": "pluginified"
+		},
+		"wrapper": "(function(window, undefined) {\n<%= content %>\n\n<%= exports.join('\\n') %>\n})(exporter);"
+	},
 	"configurations": {
 		"dummy": {
 			"description": "Default configuration",
@@ -28,7 +34,7 @@
 			"steal": {
 				"map": {
 					"*": {
-						"hello/world.js": "hello/mapped.js"
+						"fixture/hello/world.js": "fixture/hello/mapped.js"
 					}
 				}
 			}
