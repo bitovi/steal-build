@@ -16,7 +16,7 @@ describe('Pluginify', function() {
 				'<%= exports.join("\\n") %>\n' +
 				'}(exporter);',
 			steal: {
-				root: __dirname,
+				root: __dirname + '/fixture/',
 				map: {
 					'*': {
 						'hello/world.js': 'hello/mapped.js'
@@ -40,7 +40,7 @@ describe('Pluginify', function() {
 		// Set the wrapper so that it will be added to the exporter object
 		pluginify('hello', {
 			steal: {
-				root: __dirname
+				root: __dirname + '/fixture/'
 			},
 			exports: {
 				'hello': 'pluginifyMessage',
