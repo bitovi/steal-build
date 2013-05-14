@@ -1,0 +1,37 @@
+{
+	"filename": "builder.custom.js",
+	"banner": "/*! Banner: <%= info.name %> */",
+	"modules": {
+		"hello": {
+			"name": "Module.Hello",
+			"description": "The hello module",
+			"type": "core",
+			"isDefault": true
+		},
+		"hello/mapped": {
+			"name": "Module.Mapped",
+			"description": "A module that returns Mars",
+			"type": "plugin"
+		}
+	},
+	"types": {
+		"core": "Core module(s)",
+		"plugin": "Plugin module(s)"
+	},
+	"configurations": {
+		"dummy": {
+			"description": "Default configuration",
+			"isDefault": true
+		},
+		"mapped": {
+			"description": "Configuration with mappings",
+			"steal": {
+				"map": {
+					"*": {
+						"hello/world.js": "hello/mapped.js"
+					}
+				}
+			}
+		}
+	}
+}
