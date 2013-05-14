@@ -18,7 +18,20 @@ describe('Steal download builder tests', function() {
 			assert.ok(!error);
 			assert.equal(info.configurations.dummy.steals.length, 2);
 			assert.equal(info.configurations.mapped.steals.length, 2);
+			// console.log(info.configurations.dummy.steals[0].options.id);
 			done();
+		});
+	});
+
+	it('builds', function(done) {
+		builder.loadInfo(__dirname + '/fixture', function(error, info) {
+			builder({
+				ids: ['fixture/hello'],
+				url: 'http://example.com'
+			}, info, function(error, content) {
+				console.log(content);
+				done();
+			})
 		});
 	});
 });

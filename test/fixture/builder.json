@@ -2,13 +2,13 @@
 	"filename": "builder.custom.js",
 	"banner": "/*! Banner: <%= info.name %> */",
 	"modules": {
-		"hello": {
+		"fixture/hello": {
 			"name": "Module.Hello",
 			"description": "The hello module",
 			"type": "core",
 			"isDefault": true
 		},
-		"hello/mapped": {
+		"fixture/hello/mapped": {
 			"name": "Module.Mapped",
 			"description": "A module that returns Mars",
 			"type": "plugin"
