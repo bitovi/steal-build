@@ -29,12 +29,13 @@ describe('Steal download builder tests', function() {
 				var exporter = {};
 				eval(content);
 				assert.equal(exporter.pluginified, 'Hello World WORLD!');
+				assert.equal(exporter.planet, 'World');
 				done();
 			})
 		});
 	});
 
-	it('builds using configuration with mappings', function(done) {
+	it('builds using configuration with mappings and exports properly', function(done) {
 		builder.loadInfo(__dirname + '/fixture', function(error, info) {
 			builder({
 				ids: ['fixture/hello'],
@@ -43,6 +44,7 @@ describe('Steal download builder tests', function() {
 				var exporter = {};
 				eval(content);
 				assert.equal(exporter.pluginified, 'Hello Mars MARS!');
+				assert.equal(exporter.planet, 'Mars');
 				done();
 			})
 		});

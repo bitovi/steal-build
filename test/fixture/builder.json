@@ -20,7 +20,8 @@
 	},
 	"pluginify": {
 		"exports": {
-			"fixture/hello/hello.js": "pluginified"
+			"fixture/hello/hello.js": "pluginified",
+			"fixture/hello/world.js": "planet"
 		},
 		"wrapper": "(function(window, undefined) {\n<%= content %>\n\n<%= exports.join('\\n') %>\n})(exporter);"
 	},

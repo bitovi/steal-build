@@ -2,7 +2,7 @@ var pluginify = require('./../lib/build/pluginify');
 var assert = require('assert');
 
 describe('Pluginify', function() {
-	it('Pluginifies with Steal configuration', function(done) {
+	it('Pluginifies with Steal configuration and uses mappings for exporting', function(done) {
 		var exporter = {};
 
 		// Run pluginify on hello/hello.js in the current folder.
@@ -10,7 +10,8 @@ describe('Pluginify', function() {
 		// Set the wrapper so that it will be added to the exporter object
 		pluginify('hello', {
 			exports: {
-				'hello/hello.js': 'pluginifyMessage'
+				'hello/hello.js': 'pluginifyMessage',
+				'hello/world.js': 'mappedMessage'
 			},
 			wrapper: '!function(window, undefined) {\n<%= content %>\n\n' +
 				'<%= exports.join("\\n") %>\n' +
@@ -28,6 +29,7 @@ describe('Pluginify', function() {
 			eval(content);
 			// And make sure that the exported object got updated
 			assert.equal(exporter.pluginifyMessage, 'Hello Mars MARS!');
+			assert.equal(exporter.mappedMessage, 'Mars');
 			done();
 		});
 	});
