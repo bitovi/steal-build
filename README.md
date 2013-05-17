@@ -2,6 +2,8 @@
 
 NodeJS wrapper and build tools for StealJS, a JavaScript package manager.
 
+[![Build Status](https://travis-ci.org/bitovi/steal-build.png?branch=master)](https://travis-ci.org/bitovi/steal-build)
+
 ## Stealing
 
 

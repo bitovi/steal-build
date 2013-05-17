@@ -60,4 +60,14 @@ describe('Pluginify', function() {
 			done();
 		});
 	});
+
+	it('pluginify.ignores', function() {
+		var ignores = [ 'bla/x.js', 'foo/', /\/lib\//];
+		assert.ok(pluginify.ignores('ma/lib/foo.js', ignores));
+		assert.ok(!pluginify.ignores('ma/lib', ignores));
+		assert.ok(pluginify.ignores('bla/x.js', ignores));
+		assert.ok(!pluginify.ignores('foo', ignores));
+		assert.ok(pluginify.ignores('foo/bar.js', ignores));
+		assert.ok(!pluginify.ignores('my/foo/bar.js', ignores));
+	});
 });
