@@ -1,7 +1,7 @@
 {
   "name": "steal",
   "description": "A JavaScript package manager.",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "homepage": "http://javascriptmvc.com",
   "author": {
     "name": "Bitovi",
@@ -10,10 +10,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/bitovi/node-steal.git"
+    "url": "git://github.com/bitovi/steal-build.git"
   },
   "bugs": {
-    "url": "https://github.com/bitovi/node-steal/issues"
+    "url": "https://github.com/bitovi/steal-build/issues"
   },
   "licenses": [
     {
