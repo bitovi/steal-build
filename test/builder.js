@@ -1,6 +1,7 @@
 var builder = require('../lib/build/builder');
 var assert = require('assert');
-var _ = require('underscore');
+var _ = require('lodash');
+var vm = require('vm');
 
 describe('Steal download builder tests', function() {
 	it('builder.banner', function() {
@@ -44,7 +45,9 @@ describe('Steal download builder tests', function() {
 		builder(__dirname + '/fixture', function(error, info, build) {
 			build({}, function(error, content) {
 				var exporter = {};
-				eval(content);
+				vm.runInNewContext(content, {
+					exporter: exporter
+				});
 				assert.equal(exporter.pluginified, 'Hello World WORLD!');
 				assert.equal(exporter.planet, 'World');
 				done();
@@ -59,7 +62,9 @@ describe('Steal download builder tests', function() {
 				configuration: 'mapped'
 			}, function(error, content) {
 				var exporter = {};
-				eval(content);
+				vm.runInNewContext(content, {
+					exporter: exporter
+				});
 				assert.equal(exporter.pluginified, 'Hello Mars MARS!');
 				assert.equal(exporter.planet, 'Mars');
 				done();

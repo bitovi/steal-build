@@ -1,5 +1,6 @@
 var pluginify = require('./../lib/build/pluginify');
 var assert = require('assert');
+var vm = require('vm');
 var jsdom = require('jsdom');
 
 describe('Pluginify', function() {
@@ -27,7 +28,9 @@ describe('Pluginify', function() {
 			}
 		}, function(error, content) {
 			// Run the pluginified content
-			eval(content);
+			vm.runInNewContext(content, {
+				exporter: exporter
+			});
 			// And make sure that the exported object got updated
 			assert.equal(exporter.pluginifyMessage, 'Hello Mars MARS!');
 			assert.equal(exporter.mappedMessage, 'Mars');
@@ -54,7 +57,9 @@ describe('Pluginify', function() {
 				'}(exporter);'
 		}, function(error, jsContent, cssContent) {
 			// Run the pluginified content
-			eval(jsContent);
+			vm.runInNewContext(jsContent, {
+				exporter: exporter
+			});
 			// And make sure that the exported object got updated
 			assert.equal(exporter.pluginifyMessage, 'Hello World WORLD!');
 			assert.equal(exporter.world, 'World');
