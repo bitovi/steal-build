@@ -1588,6 +1588,11 @@
 					this.waits = true;
 					this.unique = false;
 				} else {
+					if(h.isString(options)) {
+						options = {
+							id: options
+						}
+					}
 					// save the original options
 					this.options = steal.makeOptions(h.extend({}, options), this.curId);
 
@@ -2986,9 +2991,16 @@
 								args.push(Module.make(id).value);
 							});
 
+							
 							if (typeof exports === "function") {
+								/**
+								 * Commented out because steal-build only executes steal calls. This means
+								 * a module's value will always be undefined so any args that need to be passed
+								 * to an exports function will be undefined and cause errors.
+								 * @type {[type]}
+								 */
 								// if module has exports function, call it
-								module.value = exports.apply(null, args);
+								// module.value = exports.apply(null, args);
 							} else {
 								// otherwise it's a string so we just return
 								// object from the window e.g window['jQuery']

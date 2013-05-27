@@ -6,15 +6,15 @@ describe('Open', function () {
 		opener('hello', { root: __dirname + '/fixture/' }, function (error, steals) {
 			assert.equal(steals.length, 1);
 			assert.equal(steals[0].options.id.toString(), 'hello/hello.js');
-			assert.equal(steals[0].dependencies.length, 3);
+			assert.equal(steals[0].dependencies.length, 4);
 			done();
 		});
 	});
 
 	it('Visits all files in the correct order', function (done) {
 		opener('hello', { root: __dirname + '/fixture/' }, function (error, steals) {
-			var counter = 3;
-			var idList = [ 'hello/hello.js', 'hello/world.js', 'hello/other.js' ];
+			var counter = 4;
+			var idList = [ 'hello/hello.js', 'hello/world.js', 'hello/other.js', 'hello/hello.css' ];
 
 			opener.visit(steals, function (stl, id) {
 				assert.ok(idList.indexOf(id)!== -1);

@@ -21,15 +21,39 @@ describe('Amdify', function() {
 		}), 'stuff/mooh/kuh');
 	});
 
+	it('Converts types', function() {
+		var moduleName = 'widget';
+		var stl = {
+			options: {
+				ext: 'css'
+			}
+		};
+		var converters = {
+			'css': function(name) {
+				return 'css!' + name;
+			},
+			'mustache': function(name) {
+				return 'text!' + name;
+			}
+		};
+
+		assert.equal(amdify.convertExt(stl, moduleName, converters), 'css!widget');
+		stl.options.ext = 'mustache';
+		assert.equal(amdify.convertExt(stl, moduleName, converters), 'text!widget');
+		stl.options.ext = 'txt';
+		assert.equal(amdify.convertExt(stl, moduleName, converters), 'widget');
+	});
+
 	it('amdifies', function(done) {
-		amdify(['hello'], { steal: { root: __dirname + '/fixture/' } }, function(error, modules) {
+		amdify(['hello'], { steal: { root: __dirname + '/fixture/' }, converters: { 'css': function(n) { return 'css!'+n;}} }, function(error, modules) {
 			assert.ok(!error);
 			assert.ok(modules['hello']);
 			assert.ok(modules['hello/other']);
 			assert.ok(modules['hello/world']);
+			assert.ok(modules['css!hello']);
 			assert.equal(modules['hello/world'],
 				'define(function() {\n\tvar world = "World";\n\n\n\n\treturn world;\n});')
-			assert.equal(modules['hello'], 'define(["hello/world", "hello/other"], ' +
+			assert.equal(modules['hello'], 'define(["hello/world", "hello/other", "css!hello"], ' +
 				'function(test, other) {\n\tvar content = "Hello ";\n\n\treturn content + test + other;\n  });')
 			done();
 		});

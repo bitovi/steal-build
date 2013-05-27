@@ -1,5 +1,6 @@
 var pluginify = require('./../lib/build/pluginify');
 var assert = require('assert');
+var jsdom = require('jsdom');
 
 describe('Pluginify', function() {
 	it('Pluginifies with Steal configuration and uses mappings for exporting', function(done) {
@@ -51,12 +52,13 @@ describe('Pluginify', function() {
 			wrapper: '!function(window, undefined) {\n<%= content %>\n\n' +
 				'<%= exports.join("\\n") %>\n' +
 				'}(exporter);'
-		}, function(error, content) {
+		}, function(error, jsContent, cssContent) {
 			// Run the pluginified content
-			eval(content);
+			eval(jsContent);
 			// And make sure that the exported object got updated
 			assert.equal(exporter.pluginifyMessage, 'Hello World WORLD!');
 			assert.equal(exporter.world, 'World');
+			assert.equal(cssContent, 'body {\n\tbackground: papayawhip;\n}');
 			done();
 		});
 	});
@@ -69,5 +71,156 @@ describe('Pluginify', function() {
 		assert.ok(!pluginify.ignores('foo', ignores));
 		assert.ok(pluginify.ignores('foo/bar.js', ignores));
 		assert.ok(!pluginify.ignores('my/foo/bar.js', ignores));
+	});
+
+	describe('Pluginifies shims', function() {
+		it('with simple exports', function(done) {
+			pluginify('shims/dollar.js', {
+				steal: {
+					root: __dirname + '/fixture/',
+					shim: {
+						'shims/dollar.js' : {
+							exports: 'dollar'
+						}
+					}
+				}
+			}, function(error, content) {
+				jsdom.env({
+					html: '<h1>Pluginify test</h1>',
+					src: [content],
+					done: function(err, win) {
+					assert.equal(win.dollar.name, "Dollar");
+					done();
+				}});
+			});
+		});
+
+		it('with function exports', function(done) {
+			pluginify('shims/dollar.js', {
+				steal: {
+					root: __dirname + '/fixture/',
+					shim: {
+						'shims/dollar.js' : {
+							exports: function() {
+								return dollar.noConflict();
+							}
+						}
+					}
+				}
+			}, function(error, content) {
+				jsdom.env({
+					html: '<h1>Pluginify test</h1>',
+					src: [content],
+					done: function(err, win) {
+					assert.equal(win.dollar.conflict, false);
+					done();
+				}});
+			});
+		});
+
+		it('with deps', function(done) {
+			pluginify('shims/deps.js', {
+				steal: {
+					root: __dirname + '/fixture/',
+					shim: {
+						'shims/dollar.js' : {
+							exports: 'dollar'
+						},
+						'shims/dollar.plugin.js' : {
+							deps: ['shims/dollar.js']
+						}
+					}
+				}
+			}, function(error, content) {
+				jsdom.env({
+					html: '<h1>Pluginify test</h1>',
+					src: [content],
+					done: function(err, win) {
+					assert.equal(win.dollar.pluggedIn, true);
+					done();
+				}});
+			});
+		});
+
+		it('with function exports and deps', function(done) {
+			pluginify('shims/deps.js', {
+				steal: {
+					root: __dirname + '/fixture/',
+					shim: {
+						'shims/dollar.js' : {
+							exports: function() {
+								return dollar.noConflict();
+							}
+						},
+						'shims/dollar.plugin.js' : {
+							deps: ['shims/dollar.js'],
+							exports: function($) {
+								$.name = 'Dollar*';
+							}
+						}
+					}
+				}
+			}, function(error, content) {
+				jsdom.env({
+					html: '<h1>Pluginify test</h1>',
+					src: [content],
+					done: function(err, win) {
+					assert.equal(win.dollar.name, 'Dollar*');
+					done();
+				}});
+			});
+		});
+	});
+
+	describe('Pluginifies templates', function() {
+		it('mustache', function(done) {
+			pluginify('views/mustache.js', {
+				steal: {
+					root: __dirname + '/fixture/',
+					shim: {
+						'views/lib/jquery.js': {
+							exports: 'jQuery'
+						},
+						'views/lib/can.jquery.js': {
+							exports: 'can'
+						}
+					},
+					ext: {
+						'mustache': 'views/lib/can.view.mustache.js'
+					}
+				}
+			}, function(error, content) {
+				jsdom.env({
+					html: '<h1>Pluginify test</h1>',
+					src: [content],
+					done: function(err, win) {
+					assert.equal(win.$('h1').text(), "Howdy steal-build!");
+					done();
+				}});
+			});
+		});
+		it('ejs', function(done) {
+			pluginify('views/ejs.js', {
+				steal: {
+					root: __dirname + '/fixture/',
+					shim: {
+						'views/lib/jquery.js': {
+							exports: 'jQuery'
+						},
+						'views/lib/can.jquery.js': {
+							exports: 'can'
+						}
+					}
+				}
+			}, function(error, content) {
+				jsdom.env({
+					html: '<h1>Pluginify test</h1>',
+					src: [content],
+					done: function(err, win) {
+					assert.equal(win.$('h1').text(), "So long steal-build!");
+					done();
+				}});
+			});
+		});
 	});
 });

@@ -1,0 +1,1 @@
+steal('./dollar.js', './dollar.plugin.js');
