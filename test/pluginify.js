@@ -78,6 +78,34 @@ describe('Pluginify', function() {
 		assert.ok(!pluginify.ignores('my/foo/bar.js', ignores));
 	});
 
+	it('Pluginifies paths', function(done) {
+		var exporter = {};
+
+		pluginify('paths', {
+			exports: {
+				'paths': 'pluginifyMessage'
+			},
+			wrapper: '!function(window, undefined) {\n<%= content %>\n\n' +
+				'<%= exports.join("\\n") %>\n' +
+				'}(exporter);',
+			steal: {
+				root: __dirname + '/fixture/',
+				paths: {
+					"paths/nothere/": "paths/pathed/",
+					"paths/pathed/pathed.js": "paths/pathed/pathedMap.js"
+				}
+			}
+		}, function(error, content) {
+			// Run the pluginified content
+			vm.runInNewContext(content, {
+				exporter: exporter
+			});
+			// And make sure that the exported object got updated
+			assert.equal(exporter.pluginifyMessage, 'Hello Stranger!');
+			done();
+		});
+	});
+
 	describe('Pluginifies shims', function() {
 		it('with simple exports', function(done) {
 			pluginify('shims/dollar.js', {
