@@ -1,4 +1,5 @@
 var assert = require('assert');
+var fs = require('fs');
 var parse = require('../lib/build/parse');
 
 describe('Steal function parsing', function(){
@@ -18,5 +19,13 @@ describe('Steal function parsing', function(){
 			"return content + test + other; }"
 
 		assert.equal(parse(text), expected);
+	});
+
+	it('Returns entire text when steal does not exist', function() {
+		fs.readFile('test/fixture/nonsteal.js', function(error, data) {
+			var text = data.toString();
+
+			assert.equal(parse(text), text);
+		});
 	});
 });
