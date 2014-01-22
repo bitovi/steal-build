@@ -61,6 +61,34 @@ describe('Pluginify', function() {
 		});
 	});
 
+	it('Pluginifies the hello fixture with dev statements left in', function(done) {
+		var exporter = {};
+
+		// Run pluginify on hello/hello.js in the current folder.
+		// Export it to pluginifyMessage
+		// Set the wrapper so that it will be added to the exporter object
+		pluginify('hello', {
+			dev: true,
+			steal: {
+				root: __dirname + '/fixture/'
+			},
+			exports: {
+				'hello': 'pluginifyMessage',
+				'hello/world.js': 'world'
+			},
+			wrapper: '!function(window, undefined) {\n<%= content %>\n\n' +
+				'<%= exports.join("\\n") %>\n' +
+				'}(exporter);'
+		}, function(error, content) {
+			// Run the pluginified content
+			eval(content);
+			// And make sure that the exported object got updated
+			assert.equal(exporter.pluginifyMessage, 'Hello Dev DEV!');
+			assert.equal(exporter.world, 'Dev');
+			done();
+		});
+	});
+
 	it('pluginify.ignores', function() {
 		var ignores = [ 'bla/x.js', 'foo/', /\/lib\//];
 		assert.ok(pluginify.ignores('ma/lib/foo.js', ignores));
