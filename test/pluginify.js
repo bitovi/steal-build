@@ -1,5 +1,6 @@
 var pluginify = require('./../lib/build/pluginify');
 var assert = require('assert');
+var fs = require('fs');
 
 describe('Pluginify', function() {
 	it('Pluginifies with Steal configuration and uses mappings for exporting', function(done) {
@@ -97,5 +98,21 @@ describe('Pluginify', function() {
 		assert.ok(!pluginify.ignores('foo', ignores));
 		assert.ok(pluginify.ignores('foo/bar.js', ignores));
 		assert.ok(!pluginify.ignores('my/foo/bar.js', ignores));
+	});
+
+	it('Pluginifies the a nonsteal fixture', function(done) {
+		pluginify('nonsteal.js', {
+			steal: {
+				root: __dirname + '/fixture/'
+			},
+			wrapper: '!function(window) {\n<%= content %>\n}(window);'
+		}, function(error, content) {
+			fs.readFile('test/fixture/nonsteal-shim.js', function(err, data) {
+				var text = data.toString();
+
+				assert.equal(content, text);
+				done();
+			});
+		});
 	});
 });
