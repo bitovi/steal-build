@@ -4,9 +4,9 @@ steal(function() {
 	//!steal-remove-start
 	world = "Steal";
 	//!steal-remove-end
-//!dev-remove-start
+//!steal-remove-start
 	world = "Dev";
-//!dev-remove-end
+//!steal-remove-end
 
 	return world;
 });
