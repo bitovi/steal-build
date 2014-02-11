@@ -1,6 +1,6 @@
 var builder = require('../lib/build/builder');
 var assert = require('assert');
-var _ = require('underscore');
+var _ = require('lodash');
 
 describe('Steal download builder tests', function() {
 	it('builder.banner', function() {

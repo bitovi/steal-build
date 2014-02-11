@@ -100,32 +100,19 @@ describe('Pluginify', function() {
 		assert.ok(!pluginify.ignores('my/foo/bar.js', ignores));
 	});
 
-	it('Pluginifies the a nonsteal fixture', function(done) {
+	it('Pluginifies a shimmed nonsteal file', function(done) {
 		pluginify('nonsteal.js', {
 			steal: {
-				root: __dirname + '/fixture/'
-			},
-			wrapper: '!function(window) {\n<%= content %>\n}(window);'
+				root: __dirname + '/fixture/',
+				shim: {
+					'nonsteal.js': {
+						exports: 'test'
+					}
+				}
+			}
 		}, function(error, content) {
-			fs.readFile('test/fixture/nonsteal-shim.js', function(err, data) {
+			fs.readFile('test/fixture/nonsteal-expected.js', function(err, data) {
 				var text = data.toString();
-
-				assert.equal(content, text);
-				done();
-			});
-		});
-	});
-
-	it('Pluginified shims', function(done) {
-		pluginify('nonsteal.js', {
-			steal: {
-				root: __dirname + '/fixture/'
-			},
-			wrapper: '!function(window) {\n<%= content %>\n}(window);'
-		}, function(error, content) {
-			fs.readFile('test/fixture/nonsteal-shim.js', function(err, data) {
-				var text = data.toString();
-
 				assert.equal(content, text);
 				done();
 			});
