@@ -25,7 +25,11 @@ describe('Pluginify', function() {
 					}
 				}
 			}
-		}, function(error, content) {
+		}, function(error, content, steals) {
+			// Make sure we got the expected Steals and in the right order
+			assert.deepEqual(steals.map(function(stl) {
+				return stl.options.id + ''
+			}), ['hello/mapped.js', 'hello/other.js',  'hello/hello.js']);
 			// Run the pluginified content
 			eval(content);
 			// And make sure that the exported object got updated
